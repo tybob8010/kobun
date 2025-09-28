@@ -1,140 +1,59 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>古文単語クイズ</title>
-  <style>
-    body { font-family: sans-serif; background: #f5f5f5; padding: 2em; text-align: center; }
-    .quiz-container { background: white; padding: 2em; border-radius: 10px; max-width: 600px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    button { display: block; width: 100%; padding: 1em; margin: 0.5em 0; border: none; border-radius: 5px; background: #ececec; cursor: pointer; transition: background 0.3s; }
-    button:hover { background: #dcdcdc; }
-    .correct { background: #c8f7c5 !important; }
-    .incorrect { background: #f7c5c5 !important; }
-  </style>
+    <meta charset="UTF-8">
+    <title>古文単語クイズ</title>
+    <style>
+    body {
+    font-family: sans-serif;
+    background: #f5f5f5;
+    padding: 2em;
+    text-align: center;
+    }
+    .quiz-container {
+    background: white;
+    padding: 2em;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    button {
+    display: block;
+    width: 100%;
+    padding: 1em;
+    margin: 0.5em 0;
+    border: none;
+    border-radius: 5px;
+    background: #ececec;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-size: 1em;
+    }
+    button:hover {
+    background: #dcdcdc;
+    }
+    button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    }
+    .correct {
+    background: #c8f7c5 !important;
+    }
+    .incorrect {
+    background: #f7c5c5 !important;
+    }
+    </style>
 </head>
 <body>
-  <div class="quiz-container">
-    <h1>古文単語クイズ(連打するな)</h1>
-    <p id="question"></p>
-    <div id="choices"></div>
-    <p id="progress"></p>
-    <p id="score"></p>
-    <div id="result"></div>
-  </div>
-
-  <script>
-    const quizData = [
-      { word: "げに", meaning: "本当に" },
-      { word: "ものがたり", meaning: "話をする" },
-      { word: "やがて", meaning: "そのまま" },
-      { word: "いたづらなり", meaning: "無駄だ" },
-      { word: "おろかなり", meaning: "おろそかだ、おろかだ" },
-      { word: "ねんごろなり", meaning: "熱心だ" },
-      { word: "つれづれなり", meaning: "することがなく退屈だ" },
-      { word: "かたち", meaning: "容姿、顔立ち" },
-      { word: "やうやう", meaning: "だんだん" },
-      { word: "ちぎり", meaning: "約束、宿縁" },
-      { word: "なほ", meaning: "やはり" },
-      { word: "ほど", meaning: "程度、身分" },
-      { word: "かげ", meaning: "月光" },
-      { word: "いかで", meaning: "どうにかして" },
-      { word: "ほい", meaning: "かねてからの願い" },
-      { word: "けしき", meaning: "思い、様子" },
-      { word: "なさけ", meaning: "人情" },
-      { word: "え～打消し", meaning: "～できない" },
-      { word: "な～そ", meaning: "～するな" },
-      { word: "あまた", meaning: "数多く" },
-      { word: "としごろ", meaning: "長年" },
-      { word: "さらに～打消し", meaning: "まったく～ない" },
-      { word: "いと", meaning: "たいそう" },
-      { word: "ふみ", meaning: "手紙" },
-      { word: "あはれなり", meaning: "しみじみと感じられる" },
-      { word: "ののしる", meaning: "大声で騒ぐ・大騒ぎする" },
-      { word: "めでたし", meaning: "すばらしい" },
-      { word: "おどろく", meaning: "目を覚ます・はっと気づく" },
-      { word: "しのぶ（忍ぶ）", meaning: "我慢する" },
-      { word: "ゆかし", meaning: "見たい、聞きたい、知りたい" },
-      { word: "みゆ", meaning: "見える" },
-      { word: "よし", meaning: "由：理由・こと　良：優れている・よい・美しい" },
-      { word: "ありく", meaning: "歩き回る・動き回る" },
-      { word: "ねんず", meaning: "我慢する・祈る" },
-      { word: "をかし", meaning: "趣がある" },
-      { word: "おとなし", meaning: "大人びている・年配だ" },
-      { word: "あやし", meaning: "不思議だ・身分が低い" },
-      { word: "ありがたし", meaning: "めったにない・めずらしい" },
-      { word: "あふ", meaning: "結婚する" },
-      { word: "わびし", meaning: "困ったこと・苦しい・つらい" },
-      { word: "うし", meaning: "つらい・悲しい" },
-      { word: "うつくし", meaning: "かわいい" },
-      { word: "くちをし", meaning: "残念だ" },
-      { word: "あく", meaning: "満足する・飽きる" },
-      { word: "ながむ", meaning: "物思いに沈む" },
-      { word: "おぼゆ", meaning: "思われる" },
-      { word: "かなし", meaning: "愛し：いとしい　悲し：悲しい" },
-      { word: "おぼつかなし", meaning: "気がかりだ" },
-      { word: "いみじ", meaning: "すばらしい" },
-      { word: "ゐる", meaning: "座っている" },
-      
-    ];
-
-    let current = 0;
-    let correct = 0;
-    let wrongQuestions = [];
-
-    function shuffle(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-    }
-
-    function showQuestion() {
-      if (current >= quizData.length) {
-        document.getElementById("question").textContent = "終了！";
-        document.getElementById("choices").innerHTML = "";
-        document.getElementById("progress").textContent = `正答率: ${(correct / quizData.length * 100).toFixed(1)}% (${correct}/${quizData.length})`;
-        document.getElementById("score").textContent = "";
-        if (wrongQuestions.length > 0) {
-          document.getElementById("result").innerHTML = '<h3>間違えた問題:</h3>' + wrongQuestions.map(q => `<p>${q.word} → ${q.correct}</p>`).join("");
-        }
-        return;
-      }
-
-      const q = quizData[current];
-      document.getElementById("question").textContent = `${current + 1}.「${q.word}」の意味は？`;
-      document.getElementById("progress").textContent = `問題 ${current + 1} / ${quizData.length}`;
-
-      const choices = [q.meaning];
-      while (choices.length < 4) {
-        const rand = quizData[Math.floor(Math.random() * quizData.length)].meaning;
-        if (!choices.includes(rand)) choices.push(rand);
-      }
-      shuffle(choices);
-
-      const container = document.getElementById("choices");
-      container.innerHTML = "";
-      choices.forEach(choice => {
-        const btn = document.createElement("button");
-        btn.textContent = choice;
-        btn.onclick = () => {
-          if (choice === q.meaning) {
-            correct++;
-            btn.classList.add("correct");
-          } else {
-            btn.classList.add("incorrect");
-            wrongQuestions.push({ word: q.word, correct: q.meaning });
-          }
-          setTimeout(() => {
-            current++;
-            showQuestion();
-          }, 800);
-        };
-        container.appendChild(btn);
-      });
-    }
-
-    shuffle(quizData);
-    showQuestion();
-  </script>
+    <h1>古文単語クイズ</h1>
+    <h2>使い方</h2>
+    <p>以下のリンクから、各学期の中間試験範囲の古文単語クイズにアクセスできます。</p>
+    <p>クイズでは4択から単語の意味を選んでください。終了後に正答率と間違えた問題、正答が表示されます。</p>
+    <div class="quiz-container">
+            <a href="1chukan.html">1学期中間</a>
+            <!--<a href="2chukan.html">2学期中間</a>--><p>2学期中間（準備中）</p>
+    </div>
+        <p>Ⓒ2025 <a href="https://tybob8010.github.io">tybob</a></p>
 </body>
 </html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>古文単語クイズ~2学期中間~</title>
+    <style>
+    body {
+        font-family: sans-serif;
+        background: #f5f5f5;
+        padding: 2em;
+        text-align: center;
+    }
+    .quiz-container {
+        background: white;
+        padding: 2em;
+        border-radius: 10px;
+        max-width: 600px;
+        margin: auto;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    button {
+        display: block;
+        width: 100%;
+        padding: 1em;
+        margin: 0.5em 0;
+        border: none;
+        border-radius: 5px;
+        background: #ececec;
+        cursor: pointer;
+        transition: background 0.3s;
+        font-size: 1em;
+    }
+    button:hover {
+        background: #dcdcdc;
+    }
+    button:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+    .correct {
+        background: #c8f7c5 !important;
+    }
+    .incorrect {
+        background: #f7c5c5 !important;
+    }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>古文単語クイズ~2学期中間~</h1>
+        <p id="question"></p>
+        <div id="choices"></div>
+        <p id="progress"></p>
+        <p id="score"></p>
+        <div id="result"></div>
+    </div>
+
+    <script>
+    const quizData = [
+        {
+        word: "げに",
+        meaning: "本当に",
+        choices: ["本当に", "たまたま", "すぐに", "いつのまにか"]
+        },
+        {
+        word: "やがて",
+        meaning: "そのまま",
+        choices: ["そのまま", "すぐに", "ようやく", "なんとなく"]
+        },
+        {
+        word: "いたづらなり",
+        meaning: "無駄だ",
+        choices: ["無駄だ", "嬉しい", "尊い", "にぎやかだ"]
+        },
+        {
+        word: "おろかなり",
+        meaning: "おろそかだ、おろかだ",
+        choices: ["おろそかだ、おろかだ", "賢い", "慎重だ", "強引だ"]
+        },
+        {
+        word: "ねんごろなり",
+        meaning: "熱心だ",
+        choices: ["熱心だ", "冷たい", "あやしい", "優雅だ"]
+        },
+        {
+        word: "つれづれなり",
+        meaning: "することがなく退屈だ",
+        choices: ["することがなく退屈だ", "うれしい", "華やかだ", "にぎやかだ"]
+        },
+        {
+        word: "かたち",
+        meaning: "容姿、顔立ち",
+        choices: ["容姿、顔立ち", "態度", "話し方", "身分"]
+        },
+        {
+        word: "やうやう",
+        meaning: "だんだん",
+        choices: ["だんだん", "急に", "まったく", "再び"]
+        },
+        {
+        word: "ちぎり",
+        meaning: "約束、宿縁",
+        choices: ["約束、宿縁", "努力", "願望", "恋敵"]
+        },
+        {
+        word: "なほ",
+        meaning: "やはり",
+        choices: ["やはり", "ついに", "かならず", "すでに"]
+        }
+    ];
+
+    let current = 0;
+    let correct = 0;
+    let wrongQuestions = [];
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function showQuestion() {
+        if (current >= quizData.length) {
+        document.getElementById("question").textContent = "終了！";
+        document.getElementById("choices").innerHTML = "";
+        document.getElementById("progress").textContent = `正答率: ${(correct / quizData.length * 100).toFixed(1)}% (${correct}/${quizData.length})`;
+        document.getElementById("score").textContent = "";
+        if (wrongQuestions.length > 0) {
+            document.getElementById("result").innerHTML = '<h3>間違えた問題:</h3>' + wrongQuestions.map(q => `<p>${q.word} → ${q.correct}</p>`).join("");
+        }
+        return;
+        }
+
+        const q = quizData[current];
+        document.getElementById("question").textContent = `${current + 1}.「${q.word}」の意味は？`;
+        document.getElementById("progress").textContent = `問題 ${current + 1} / ${quizData.length}`;
+
+        const container = document.getElementById("choices");
+        container.innerHTML = "";
+
+      // 選択肢をシャッフル
+        const shuffledChoices = [...q.choices];
+        shuffle(shuffledChoices);
+
+        shuffledChoices.forEach(choice => {
+        const btn = document.createElement("button");
+        btn.textContent = choice;
+        btn.onclick = () => {
+          // 🔒 全てのボタンを無効化
+            const allButtons = document.querySelectorAll("#choices button");
+            allButtons.forEach(b => b.disabled = true);
+
+            if (choice === q.meaning) {
+            correct++;
+            btn.classList.add("correct");
+            } else {
+            btn.classList.add("incorrect");
+            wrongQuestions.push({ word: q.word, correct: q.meaning });
+            }
+
+            setTimeout(() => {
+            current++;
+            showQuestion();
+          }, 300); // ⏩ 高速切り替え（0.3秒）
+        };
+        container.appendChild(btn);
+        });
+    }
+
+    shuffle(quizData);
+    showQuestion();
+    </script>
+</body>
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+    <link rel="icon" type="image/png" href="bird2.png">
 <head>
     <meta charset="UTF-8">
     <title>古文単語クイズ~2学期中間~</title>
@@ -43,69 +44,178 @@
     .incorrect {
         background: #f7c5c5 !important;
     }
+    .kobun {
+        font-weight: bold;
+        font-size: 1.2em;
+        margin-bottom: 0.3em;
+    }
+    .question {
+        color: #555;
+        margin-bottom: 1em;
+    }
     </style>
 </head>
 <body>
     <div class="quiz-container">
         <h1>古文単語クイズ~2学期中間~</h1>
-        <p id="question"></p>
+        <p class="kobun" id="kobun"></p>
+        <p class="question" id="question"></p>
         <div id="choices"></div>
         <p id="progress"></p>
-        <p id="score"></p>
         <div id="result"></div>
     </div>
 
     <script>
     const quizData = [
         {
-        word: "げに",
-        meaning: "本当に",
-        choices: ["本当に", "たまたま", "すぐに", "いつのまにか"]
+        kobun: "観音を頼み奉らんに、その<u>験</u>なしといふことは、あるまじきことなり。",
+        question: "（訳）ご観音様におすがりして、その[ ]がないということは、あるはずがないことだ。",
+        answer: "ご利益",
+        choices: ["ご経験", "ご挨拶", "ご利益", "ご招待"]
         },
         {
-        word: "やがて",
-        meaning: "そのまま",
-        choices: ["そのまま", "すぐに", "ようやく", "なんとなく"]
+        kobun: "ひとり、灯火のもとに文を広げて、見ぬ世の人を友とするぞ、こよなう慰む<u>わざ</u>なる。",
+        question: "（訳）ただ一人、明かりのもとで書物を広げて、（それを書いた）見知らぬ世の人を友とすることは、格段に心が慰められる[ ]である。",
+        answer: "こと",
+        choices: ["きっかけ", "こと", "わけ", "ばかり"]
         },
         {
-        word: "いたづらなり",
-        meaning: "無駄だ",
-        choices: ["無駄だ", "嬉しい", "尊い", "にぎやかだ"]
+        kobun: "夏は夜。月のころは<u>さらなり</u>。",
+        question: "（訳）夏は夜（が趣深い）。月の出ている頃は[ ]。",
+        answer: "言うまでもない",
+        choices: ["言うまでもない", "それほどでもない", "さらによい", "そうではない"]
         },
         {
-        word: "おろかなり",
-        meaning: "おろそかだ、おろかだ",
-        choices: ["おろそかだ、おろかだ", "賢い", "慎重だ", "強引だ"]
+        kobun: "あまたの<u>手</u>を、片時の間に弾きとりつ。",
+        question: "（訳）たくさんの[ ]を、あっという間に習得した。",
+        answer: "演奏法",
+        choices: ["武術", "演奏法", "遊び", "学問"]
         },
         {
-        word: "ねんごろなり",
-        meaning: "熱心だ",
-        choices: ["熱心だ", "冷たい", "あやしい", "優雅だ"]
+        kobun: "こなたは<u>あらはに</u>や侍らむ。今日しも端におはしましけるかな。",
+        question: "（訳）こちらは[ ]はございませんか。今日に限って端近なところにいらっしゃいましたね。",
+        answer: "まる見えで",
+        choices: ["危険で", "まる見えで", "眺めが悪く", "正面で"]
         },
         {
-        word: "つれづれなり",
-        meaning: "することがなく退屈だ",
-        choices: ["することがなく退屈だ", "うれしい", "華やかだ", "にぎやかだ"]
+        kobun: "十七日の<u>つとめて</u>、立つ。",
+        question: "（訳）十七日の[ ]、出発する。",
+        answer: "早朝",
+        choices: ["翌日", "夕方", "夜更け", "早朝"]
         },
         {
-        word: "かたち",
-        meaning: "容姿、顔立ち",
-        choices: ["容姿、顔立ち", "態度", "話し方", "身分"]
+        kobun: "<u>おほやけ</u>に御文奉り給ふ。",
+        question: "（訳）[ ]にお手紙を差し上げなさる。",
+        answer: "天皇",
+        choices: ["天皇", "主君", "実家", "都"]
         },
         {
-        word: "やうやう",
-        meaning: "だんだん",
-        choices: ["だんだん", "急に", "まったく", "再び"]
+        kobun: "露など<u>あだなる</u>物と思ひけむ",
+        question: "（訳）露をどうして[ ]ものと思っていたのだろう。",
+        answer: "はかない",
+        choices: ["はかない", "恐ろしい", "もどかしい", "つまらない"]
         },
         {
-        word: "ちぎり",
-        meaning: "約束、宿縁",
-        choices: ["約束、宿縁", "努力", "願望", "恋敵"]
+        kobun: "人を見るに、少し心ある<u>きは</u>は、皆このあらましにてぞ一期は過ぐめる。",
+        question: "（訳）人を見てみると、少しものの道理がわかる[ ]の人は、みなこの（出家の）心づもりで一生は過ぎてしまうようだ。",
+        answer: "少数",
+        choices: ["少数", "普通", "程度", "世代"]
         },
         {
-        word: "なほ",
-        meaning: "やはり",
-        choices: ["やはり", "ついに", "かならず", "すでに"]
+        kobun: "をかしげなる児の、<u>あからさまに</u>抱きて遊ばしうつくしむほどに、かい付きて寝たる、いとらうたし。",
+        question: "（訳）かわいらしい幼児が、[ ]抱いて遊ばせかわいがっているうちに、抱きついて寝てしまったのは、とてもかわいい",
+        answer: "ちょっとの間",
+        choices: ["いつものように", "懸命に", "わざとらしく", "ちょっとの間"]
+        },
+        {
+        kobun: "我を知らずして、外を知るといふ<u>理</u>あるべからず。",
+        question: "（訳）自分を知らないで、他人を知るという[ ]があるはずがない。",
+        answer: "道理",
+        choices: ["前例", "論理", "道理", "理想"]
+        },
+        {
+        kobun: "いづくにもあれ、しばし旅立ちたるこそ、目さむる<u>心地</u>すれ。",
+        question: "（訳）どこにでもあれ、しばらくよそに泊まるのは、目の覚める（新鮮な）[ ]がする。",
+        answer: "気持ち",
+        choices: ["予感", "香り", "気持ち", "音"]
+        },
+        {
+        kobun: "<u>才</u>をもととしてこそ、大和魂の世に用ゐらるる方も強う侍らめ。",
+        question: "（訳）[ ]を基本としてこそ、実務能力が世間に重んじられるということも確実になるのでございましょう。",
+        answer: "学問",
+        choices: ["和歌", "学問", "家柄", "人格"]
+        },
+        {
+        kobun: "<u>うつつ</u>の人の乗りたるとなむ、さらに見えぬ。なお下りて見よ。",
+        question: "（訳）（卯の花をびっしりと挿したあの牛車には）[ ]の人がのっているとは、まったく思われない。やはり（車から）降りて（自分で）見てごらん。",
+        answer: "正気",
+        choices: ["正気", "格別", "評判", "普通"]
+        },
+        {
+        kobun: "今日は<u>よろづ</u>を捨てて、参り候ひつるなり。",
+        question: "（訳）今日は[ ]をなげうって、参上したのです。",
+        answer: "さまざまなこと",
+        choices: ["楽しいこと", "急ぎのこと", "めんどうなこと", "さまざまなこと"]
+        },
+        {
+        kobun: "大方はしりたりとも、<u>すずろに</u>言い散らすは、さばかりの才にはあらぬにやと聞こえ、おのづから誤りもありぬべし。",
+        question: "（訳）大体は知っていても、[ ]言いちらすのは、さほどしっかりした才能ではないのであろうと思われ、しぜん誤りもあるに違いない。",
+        answer: "むやみに",
+        choices: ["いい加減に", "むやみに", "そのまま", "意味もなく"]
+        },
+        {
+        kobun: "久しくとどまりたる<u>例</u>なし。",
+        question: "（訳）いつまでもとどまっている[ ]はない。",
+        answer: "例",
+        choices: ["道理", "時間", "例", "理由"]
+        },
+        {
+        kobun: "ふりにける岩の絶え間より、落ちくる水の音さへ、故び<u>よし</u>ある所なり。",
+        question: "（訳）古びた岩のすき間から、落ちてくる水の音までが、由緒ありげで[ ]のある所である。",
+        answer: "風情",
+        choices: ["道理", "風情", "魅力", "哀愁"]
+        },
+        {
+        kobun: "ことに<u>かたくななる</u>人ぞ、「この枝、かの枝、散りにけり。今は見所なし」などは言ふめる。",
+        question: "（訳）特に[ ]人に限って、「この枝もあの枝も（花が）散ってしまった。もはや見る価値のあるところもない」などと言うようだ。",
+        answer: "情趣を解さない",
+        choices: ["愛情のない", "情趣を解さない", "身分が低い", "愚かしい"]
+        },
+        {
+        kobun: "今様は、<u>むげに</u>いやしくこそなりゆくめれ。",
+        question: "（訳）当世風は、[ ]下品になっていくようだ。",
+        answer: "もちろん",
+        choices: ["むやみに", "もちろん", "わずかに", "しだいに"]
+        },
+        {
+        kobun: "三月の<u>つごもり</u>なれば、京の花、盛りはみな過ぎにけり。",
+        question: "（訳）陰暦三月の[ ]なので、京の桜の花は、花盛りはみな過ぎてしまった。",
+        answer: "月末",
+        choices: ["月末", "時節", "月初め", "中旬"]
+        },
+        {
+        kobun: "ことの<u>ついで</u>ありて、人の奏しければ、聞こしめしてけり。",
+        question: "（訳）何かの[ ]があって、ある人が奏上したので、（帝は）お聞きになった。",
+        answer: "行い",
+        choices: ["行い", "機会", "因縁", "命令"]
+        },
+        {
+        kobun: "孝養の心なき者も、子持ちてこそ、親の<u>志</u>は思ひ知るなれ。",
+        question: "（訳）親孝行の心のない者も、（自分自身が）子を持って（はじめて）、親の[ ]はわかるものである。",
+        answer: "愛情",
+        choices: ["命令", "愛情", "人生", "苦労"]
+        },
+        {
+        kobun: "これを習ふべし。学問に<u>便り</u>あらんためなり。",
+        question: "（訳）これ（＝文字を書くこと）を習うべきだ。学問をする上で[ ]があるようなためである。",
+        answer: "便宜",
+        choices: ["便宜", "機会", "影響", "理解"]
+        },
+        {
+        kobun: "いとまばゆき、人の御<u>おぼえ</u>なり。",
+        question: "（訳）とても見ていられないほどの、（桐壺の更衣に対する帝の）ご[ ]である。",
+        answer: "寵愛",
+        choices: ["寵愛", "命令", "不満", "信頼"]
         }
     ];
 
@@ -122,24 +232,28 @@
 
     function showQuestion() {
         if (current >= quizData.length) {
-        document.getElementById("question").textContent = "終了！";
+        document.getElementById("kobun").textContent = "終了！";
+        document.getElementById("question").textContent = "";
         document.getElementById("choices").innerHTML = "";
-        document.getElementById("progress").textContent = `正答率: ${(correct / quizData.length * 100).toFixed(1)}% (${correct}/${quizData.length})`;
-        document.getElementById("score").textContent = "";
+        document.getElementById("progress").textContent =
+          `正答率: ${(correct / quizData.length * 100).toFixed(1)}% (${correct}/${quizData.length})`;
+
         if (wrongQuestions.length > 0) {
-            document.getElementById("result").innerHTML = '<h3>間違えた問題:</h3>' + wrongQuestions.map(q => `<p>${q.word} → ${q.correct}</p>`).join("");
+            document.getElementById("result").innerHTML =
+            '<h3>間違えた問題:</h3>' +
+            wrongQuestions.map(q => `<p>${q.kobun} → ${q.answer}</p>`).join("");
         }
         return;
         }
 
         const q = quizData[current];
-        document.getElementById("question").textContent = `${current + 1}.「${q.word}」の意味は？`;
+        document.getElementById("kobun").innerHTML = `${current + 1}. 「${q.kobun}」`;
+        document.getElementById("question").textContent = q.question;
         document.getElementById("progress").textContent = `問題 ${current + 1} / ${quizData.length}`;
 
         const container = document.getElementById("choices");
         container.innerHTML = "";
 
-      // 選択肢をシャッフル
         const shuffledChoices = [...q.choices];
         shuffle(shuffledChoices);
 
@@ -147,22 +261,20 @@
         const btn = document.createElement("button");
         btn.textContent = choice;
         btn.onclick = () => {
-          // 🔒 全てのボタンを無効化
-            const allButtons = document.querySelectorAll("#choices button");
-            allButtons.forEach(b => b.disabled = true);
+            document.querySelectorAll("#choices button").forEach(b => b.disabled = true);
 
-            if (choice === q.meaning) {
+            if (choice === q.answer) {
             correct++;
             btn.classList.add("correct");
             } else {
             btn.classList.add("incorrect");
-            wrongQuestions.push({ word: q.word, correct: q.meaning });
+            wrongQuestions.push({ kobun: q.kobun, answer: q.answer });
             }
 
             setTimeout(() => {
             current++;
             showQuestion();
-          }, 300); // ⏩ 高速切り替え（0.3秒）
+            }, 400);
         };
         container.appendChild(btn);
         });

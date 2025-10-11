@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <link rel="icon" type="image/png" href="bird2.png">
+<head>
+    <meta charset="UTF-8">
+    <title>更新履歴/古文単語クイズ</title>
+    <style>
+    body {
+        font-family: sans-serif;
+        background: #f5f5f5;
+        padding: 2em;
+        text-align: center;
+    }
+    .quiz-container {
+        background: white;
+        padding: 2em;
+        border-radius: 10px;
+        max-width: 600px;
+        margin: auto;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        text-align: left;
+    }
+    button {
+        display: block;
+        width: 100%;
+        padding: 1em;
+        margin: 0.5em 0;
+        border: none;
+        border-radius: 5px;
+        background: #ececec;
+        cursor: pointer;
+        transition: background 0.3s;
+        font-size: 1em;
+    }
+    button:hover {
+        background: #dcdcdc;
+    }
+    button:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+    .correct {
+        background: #c8f7c5 !important;
+    }
+    .incorrect {
+        background: #f7c5c5 !important;
+    }
+    .kobun {
+        font-weight: bold;
+        font-size: 1.2em;
+        margin-bottom: 0.3em;
+    }
+    .question {
+        color: #555;
+        margin-bottom: 1em;
+    }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>更新履歴</h1>
+        <p></p>
+        <ul>
+            <li>2024/05/18: 古文単語クイズをリリース。（1学期中間分、全50問）</li>
+            <li>2024/09/28: 選択肢を連打することで正確に答えが反映されないバグを修正。</li>
+            <li>2024/10/09: 2学期中間を追加。ただし半分（25問）のみ。</li>
+            <li>2024/10/11: 2学期中間を追加。全50問。</li>
+        </ul>
+    </div>
+    <p><a href="https://tybob8010.github.io/kobun">トップに戻る</a></p>
